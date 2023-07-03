@@ -25,4 +25,11 @@ public class SendMessageController {
 
     return Mono.just("send message ok");
   }
+
+  @GetMapping(path = "/sendMessage3")
+  public Mono<String> sendConvertMonoMessage() {
+    kafkaMessageProducer.sendConvertMonoMessage("case1 sendConvertMonoMessage Test!");
+
+    return Mono.just("send convert mono message ok");
+  }
 }

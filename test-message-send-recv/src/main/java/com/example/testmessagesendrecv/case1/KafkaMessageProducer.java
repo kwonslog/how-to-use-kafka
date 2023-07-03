@@ -1,6 +1,7 @@
 package com.example.testmessagesendrecv.case1;
 
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.apache.kafka.clients.producer.ProducerRecord;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.kafka.core.KafkaTemplate;
@@ -8,7 +9,10 @@ import org.springframework.kafka.support.SendResult;
 import org.springframework.stereotype.Component;
 import org.springframework.util.concurrent.ListenableFuture;
 import org.springframework.util.concurrent.ListenableFutureCallback;
+import reactor.core.publisher.Mono;
+import reactor.core.scheduler.Schedulers;
 
+@Slf4j
 @Component
 @RequiredArgsConstructor
 public class KafkaMessageProducer {
@@ -42,5 +46,21 @@ public class KafkaMessageProducer {
         }
       }
     );
+  }
+
+  /*
+   * kafkaTemplate.send 메소드를 별도의 작업 스레드에서 실행(비동기)
+   */
+  public void sendConvertMonoMessage(String message) {
+    log.debug("thread check 1");
+    Mono
+      .<SendResult<String, String>>create(sink -> {
+        log.debug("thread check 2");
+
+        ListenableFuture<SendResult<String, String>> future = kafkaTemplate.send(new ProducerRecord<>(topic, message));
+        future.addCallback(result -> sink.success(result), ex -> sink.error(ex));
+      })
+      .subscribeOn(Schedulers.boundedElastic())
+      .subscribe();
   }
 }
