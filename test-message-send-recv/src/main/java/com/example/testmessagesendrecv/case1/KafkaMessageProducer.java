@@ -61,6 +61,13 @@ public class KafkaMessageProducer {
         future.addCallback(result -> sink.success(result), ex -> sink.error(ex));
       })
       .subscribeOn(Schedulers.boundedElastic())
-      .subscribe();
+      .subscribe(
+        result -> {
+          log.debug("Message sent successfully: {}", result.getRecordMetadata().offset());
+        },
+        ex -> {
+          log.error("error", ex);
+        }
+      );
   }
 }
