@@ -1,0 +1,1 @@
+docker exec -it test-kf kafka-console-consumer --topic test-topic --bootstrap-server localhost:9092
