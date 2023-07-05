@@ -21,7 +21,9 @@ public class SendMessageController {
 
   @GetMapping(path = "/sendMessage2")
   public Mono<String> sendMessage2() {
-    kafkaMessageReactiveProducer.sendMessage("case1 sendMessage Reactive Test!");
+    //kafkaMessageReactiveProducer.sendMessage("case1 sendMessage Reactive Test!");
+    //kafkaMessageReactiveProducer.sendMessage2("case1 sendMessage Reactive Test!");
+    kafkaMessageReactiveProducer.sendMessageCommit("case1 sendMessage Reactive Test!");
 
     return Mono.just("send message ok");
   }

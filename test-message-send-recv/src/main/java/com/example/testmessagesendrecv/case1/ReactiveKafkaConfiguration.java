@@ -18,6 +18,9 @@ public class ReactiveKafkaConfiguration {
     props.put(ProducerConfig.KEY_SERIALIZER_CLASS_CONFIG, "org.apache.kafka.common.serialization.StringSerializer");
     props.put(ProducerConfig.VALUE_SERIALIZER_CLASS_CONFIG, "org.apache.kafka.common.serialization.StringSerializer");
 
+    //메세지 송신 처리 후 수동으로 커밋하려면 아래값을 설정해야 한다.
+    props.put(ProducerConfig.TRANSACTIONAL_ID_CONFIG, "testTransactionalId-01");
+
     return new ReactiveKafkaProducerTemplate<>(SenderOptions.create(props));
   }
 }

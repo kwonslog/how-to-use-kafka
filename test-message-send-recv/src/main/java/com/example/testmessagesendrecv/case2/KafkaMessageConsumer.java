@@ -8,7 +8,7 @@ import org.springframework.stereotype.Component;
 @Component
 public class KafkaMessageConsumer {
 
-  @KafkaListener(topics = "test-topic", concurrency = "3")
+  @KafkaListener(topics = "test-topic", concurrency = "1")
   public void listen(String message) throws InterruptedException {
     log.debug("Processing message: {}", message);
   }
