@@ -1,0 +1,52 @@
+version: '3'
+
+services:
+  service-kf-1:
+    image: confluentinc/cp-kafka
+    restart: always
+    hostname: host-kf-1
+    ports:
+      - "9092:9092"
+    environment:
+      #ID 값은 숫자만 가능
+      - KAFKA_BROKER_ID=1
+      - KAFKA_ADVERTISED_LISTENERS=PLAINTEXT://host-kf-1:9092
+      - KAFKA_ZOOKEEPER_CONNECT=host-zk-1:2181,host-zk-2:2181,host-zk-3:2181
+      - KAFKA_OFFSETS_TOPIC_REPLICATION_FACTOR=3
+      - KAFKA_DELETE_TOPIC_ENABLE=true
+    networks:
+      - test-kafka-net
+  
+  service-kf-2:
+    image: confluentinc/cp-kafka
+    restart: always
+    hostname: host-kf-2
+    ports:
+      - "9093:9093"
+    environment:
+      - KAFKA_BROKER_ID=2
+      - KAFKA_ADVERTISED_LISTENERS=PLAINTEXT://host-kf-2:9093
+      - KAFKA_ZOOKEEPER_CONNECT=host-zk-1:2181,host-zk-2:2181,host-zk-3:2181
+      - KAFKA_OFFSETS_TOPIC_REPLICATION_FACTOR=3
+      - KAFKA_DELETE_TOPIC_ENABLE=true
+    networks:
+      - test-kafka-net
+  
+  service-kf-3:
+    image: confluentinc/cp-kafka
+    restart: always
+    hostname: host-kf-3
+    ports:
+      - "9094:9094"
+    environment:
+      - KAFKA_BROKER_ID=3
+      - KAFKA_ADVERTISED_LISTENERS=PLAINTEXT://host-kf-3:9094
+      - KAFKA_ZOOKEEPER_CONNECT=host-zk-1:2181,host-zk-2:2181,host-zk-3:2181
+      - KAFKA_OFFSETS_TOPIC_REPLICATION_FACTOR=3
+      - KAFKA_DELETE_TOPIC_ENABLE=true
+    networks:
+      - test-kafka-net
+
+networks:
+  test-kafka-net:
+    external: true

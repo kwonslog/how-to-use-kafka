@@ -1,0 +1,1 @@
+docker exec -it test-kf1 kafka-console-consumer --bootstrap-server localhost:9092 --topic __consumer_offsets --formatter "kafka.coordinator.group.GroupMetadataManager$OffsetsMessageFormatter" --from-beginning --property print.key=true --property print.value=true

@@ -1,0 +1,36 @@
+version: '3'
+services:
+  test-zookeeper:
+    image: confluentinc/cp-zookeeper
+    container_name: test-zk
+    ports:
+      - "2181:2181"
+    environment:
+      - ZOOKEEPER_CLIENT_PORT=2181
+    networks:
+      - test-kafka-net
+
+  test-kafka1:
+    image: confluentinc/cp-kafka
+    container_name: test-kf1
+    ports:
+      - "9092:9092"
+    environment:
+      #ID 값은 숫자만 가능
+      - KAFKA_BROKER_ID=1
+      - KAFKA_ADVERTISED_LISTENERS=PLAINTEXT://test-kafka1:9092
+      - KAFKA_ZOOKEEPER_CONNECT=test-zookeeper:2181
+      - KAFKA_OFFSETS_TOPIC_REPLICATION_FACTOR=1
+      - KAFKA_DELETE_TOPIC_ENABLE=true
+      # 아래 2줄 옵션은 로컬 컴퓨터에서 테스트 목적으로 설정한 값으로
+      # 실제 운영 환경에서는 설정할 필요 없다.
+      - KAFKA_TRANSACTION_STATE_LOG_REPLICATION_FACTOR=1
+      - KAFKA_TRANSACTION_STATE_LOG_MIN_ISR=1
+    depends_on:
+      - test-zookeeper
+    networks:
+      - test-kafka-net
+
+networks:
+  test-kafka-net:
+    external: true

@@ -1,0 +1,63 @@
+version: '3'
+
+services:
+  service-zk-1:
+    image: confluentinc/cp-zookeeper
+    restart: always
+    hostname: host-zk-1
+    container_name: continer-zk-1
+    ports:
+      - 2181:2181
+    environment:
+      ZOOKEEPER_CLIENT_PORT: 2181
+      ZOO_MY_ID: 1
+      ZOO_SERVERS: server.1=host-zk-1:2888:3888,server.2=host-zk-2:2888:3888,server.3=host-zk-3:2888:3888
+      ZOO_TICK_TIME: 2000
+      ZOO_INIT_LIMIT: 5
+      ZOO_SYNC_LIMIT: 2
+    volumes:
+      - ./docker-volume/zk1:/var/lib/zookeeper
+    networks:
+      - test-kafka-net
+
+  service-zk-2:
+    image: confluentinc/cp-zookeeper
+    restart: always
+    hostname: host-zk-2
+    container_name: continer-zk-2
+    ports:
+      - 2182:2182
+    environment:
+      ZOOKEEPER_CLIENT_PORT: 2181
+      ZOO_MY_ID: 2
+      ZOO_SERVERS: server.1=host-zk-1:2888:3888,server.2=host-zk-2:2888:3888,server.3=host-zk-3:2888:3888
+      ZOO_TICK_TIME: 2000
+      ZOO_INIT_LIMIT: 5
+      ZOO_SYNC_LIMIT: 2
+    volumes:
+      - ./docker-volume/zk2:/var/lib/zookeeper
+    networks:
+      - test-kafka-net
+
+  service-zk-3:
+    image: confluentinc/cp-zookeeper
+    restart: always
+    hostname: host-zk-3
+    container_name: continer-zk-3
+    ports:
+      - 2183:2183
+    environment:
+      ZOOKEEPER_CLIENT_PORT: 2181
+      ZOO_MY_ID: 3
+      ZOO_SERVERS: server.1=host-zk-1:2888:3888,server.2=host-zk-2:2888:3888,server.3=host-zk-3:2888:3888
+      ZOO_TICK_TIME: 2000
+      ZOO_INIT_LIMIT: 5
+      ZOO_SYNC_LIMIT: 2
+    volumes:
+      - ./docker-volume/zk3:/var/lib/zookeeper
+    networks:
+      - test-kafka-net
+
+networks:
+  test-kafka-net:
+    external: true

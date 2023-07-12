@@ -1,1 +1,3 @@
-docker exec -it test-kf kafka-console-consumer --topic test-topic --bootstrap-server localhost:9092
+docker exec -it test-kf1 kafka-console-consumer --topic test-topic --isolation-level read_committed --bootstrap-server localhost:9092
+#docker exec -it test-kf1 kafka-console-consumer --topic test-topic --isolation-level read_committed --bootstrap-server localhost:9092,localhost:9093,localhost:9094
+#docker exec -it test-kf1 kafka-console-consumer --topic test-topic --isolation-level read_uncommitted --bootstrap-server localhost:9092,localhost:9093,localhost:9094

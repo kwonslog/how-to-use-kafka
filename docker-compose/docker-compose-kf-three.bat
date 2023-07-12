@@ -1,0 +1,1 @@
+docker-compose -f docker-compose-kf-three.yml up
